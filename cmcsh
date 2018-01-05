@@ -1,0 +1,1 @@
+curl https://api.coinmarketcap.com/v1/ticker/ | JSON.sh -n|awk '/\{/ { print }' |awk -F, '{ gsub(/(\")/,""); gsub(/(name|symbol|rank|price.usd)\:/,""); print $4"|\033[1m\033[34m\033[40m"$2"(\033[96m\033[40m"$3") | \033[39m$"$5" | "$8" | "$9" | "$11" | "$13}'|column -t -s="|"
