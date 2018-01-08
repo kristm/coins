@@ -1,1 +1,8 @@
-curl https://api.coinmarketcap.com/v1/ticker/ | JSON.sh -n|awk '/\{/ { print }' |awk -F, '{ gsub(/(\")/,""); gsub(/(name|symbol|rank|price.usd)\:/,""); print $4"|\033[1m\033[34m\033[40m"$2"(\033[96m\033[40m"$3") | \033[39m$"$5" | "$8" | "$9" | "$11" | "$13}'|column -t -s="|"
+#!/bin/bash
+
+darkblue='\033[1m\033[34m\033[40m'
+lightblue='\033[96m\033[40m'
+white='\033[39m'
+curl https://api.coinmarketcap.com/v1/ticker/ | JSON.sh -n|awk '/\{/ { print }' |awk -F, '{ gsub(/(\")/,""); gsub(/(name|symbol|rank|price.usd)\:/,""); print "\033[1m\033[34m\033[40m"$2"(\033[96m\033[40m"$3") > $"$5" | "$8" | "$9" | "$11" | "$13}'|
+awk -F ">" '/-/    { print $1"\033[31m|"$2"\033[39m"; next; }
+            /[^-]/ { print $1"\033[32m|"$2"\033[39m" }'
